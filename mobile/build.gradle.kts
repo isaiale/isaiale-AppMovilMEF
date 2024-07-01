@@ -38,6 +38,9 @@ android {
 dependencies {
     implementation("com.google.android.gms:play-services-wearable:18.0.0")
     implementation("com.google.android.gms:play-services-tasks:18.0.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.auth0.android:jwtdecode:2.0.1")
     implementation("androidx.core:core-ktx:1.9.0")

@@ -1,14 +1,26 @@
 package com.example.mienfermerafav
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.Node
+import com.google.android.gms.wearable.Wearable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+
 
 class GenerateTokenActivity : AppCompatActivity() {
     private val client = OkHttpClient()
@@ -20,6 +32,7 @@ class GenerateTokenActivity : AppCompatActivity() {
 
         // Asumimos que el ID del usuario se pasa como un extra en el Intent
         userId = intent.getStringExtra("USER_ID") ?: ""
+        Log.d("GenerateTokenActivity", "$userId")
 
         val userIdTextView = findViewById<TextView>(R.id.userIdTextView)
         val tokenTextView = findViewById<TextView>(R.id.tokenTextView)
@@ -29,9 +42,15 @@ class GenerateTokenActivity : AppCompatActivity() {
         userIdTextView.text = "User ID: $userId"
 
         generateTokenButton.setOnClickListener {
-            val token = generateToken()
-            tokenTextView.text = token
-            saveTokenToApi(token)
+            try {
+                val token = generateToken()
+                tokenTextView.text = token
+                saveTokenToApi(token)
+                sendMessageToWearable("$userId")
+            } catch (e: Exception) {
+                Log.e("GenerateTokenActivity", "Error al generar token: ${e.message}")
+                showToast("Error al generar token: ${e.message}")
+            }
         }
     }
 
@@ -54,8 +73,9 @@ class GenerateTokenActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
                     // Manejar el error
-                    showToast("Error al guardar el token con ID ${userId}: ${e.message}")
+                    showToast("Error al guardar el token con ID $userId: ${e.message}")
                 }
+                Log.e("GenerateTokenActivity", "Error al guardar el token con ID $userId: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -64,14 +84,45 @@ class GenerateTokenActivity : AppCompatActivity() {
                         // Mostrar un mensaje de éxito
                         showToast("Token guardado exitosamente")
                     }
+                    Log.d("GenerateTokenActivity", "Token guardado exitosamente")
                 } else {
                     runOnUiThread {
                         // Manejar el error
-                        showToast("Error al guardar el token con ID ${userId}: ${response.message}")
+                        showToast("Error al guardar el token con ID $userId: ${response.message}")
                     }
+                    Log.e("GenerateTokenActivity", "Error al guardar el token con ID $userId: ${response.message}")
                 }
             }
         })
+    }
+
+    private fun sendMessageToWearable(message: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val nodes: List<Node> = Tasks.await(Wearable.getNodeClient(this@GenerateTokenActivity).connectedNodes)
+                for (node in nodes) {
+                    Wearable.getMessageClient(this@GenerateTokenActivity).sendMessage(node.id, "/message_path", message.toByteArray())
+                        .addOnSuccessListener {
+                            Log.d("GenerateTokenActivity", "Mensaje enviado: $message")
+                            runOnUiThread {
+                                showToast("Mensaje enviado: $message")
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("GenerateTokenActivity", "Error al enviar mensaje: ${e.message}")
+                            runOnUiThread {
+                                showToast("Error al enviar mensaje: ${e.message}")
+                            }
+                        }
+                }
+            } catch (e: ExecutionException) {
+                e.printStackTrace()
+                Log.e("GenerateTokenActivity", "Error al enviar mensaje: ${e.message}")
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+                Log.e("GenerateTokenActivity", "Error al enviar mensaje: ${e.message}")
+            }
+        }
     }
 
     private fun showToast(message: String) {

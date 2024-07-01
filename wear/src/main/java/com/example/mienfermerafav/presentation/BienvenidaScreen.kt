@@ -18,7 +18,7 @@ fun WelcomeScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Bienvenido a mi enfermera favorita", fontSize = 20.sp, color = Color.White)
+            Text(text = "Bienvenido a mi enfermera favorita", fontSize = 20.sp, color = Color.Black)
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 navController.navigate("guia")

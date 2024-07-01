@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
                         runOnUiThread {
                             // Enviar datos al Wearable
-                            sendDataToWearable("Usuario: $nombre $apellido")
+                            //sendDataToWearable("Usuario: $nombre $apellido")
 
                             Toast.makeText(this@MainActivity, "Bienvenido, $nombre $apellido", Toast.LENGTH_SHORT).show()
                             // Redirigir a HomeActivity pasando el ID del usuario, nombre, apellido y correo
@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun sendDataToWearable(data: String) {
+    /*
+    * private fun sendDataToWearable(data: String) {
         val dataMapRequest = PutDataMapRequest.create("/path/to/data")
         val dataMap = dataMapRequest.dataMap
         dataMap.putString("key", data)
@@ -112,10 +113,11 @@ class MainActivity : AppCompatActivity() {
 
         dataClient.putDataItem(putDataRequest)
             .addOnSuccessListener {
-                Toast.makeText(this, "Datos enviados exitosamente al wearable", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Datos enviados: $data", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error al enviar datos al wearable: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+    * */
 }
