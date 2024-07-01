@@ -1,5 +1,9 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">Pet Car Jireh</string>
+=======
+    <string name="app_name">Mi enfermera favorita</string>
+>>>>>>> jamesB
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
@@ -7,5 +11,9 @@
     <string name="hello_world">From the Square world,\nHello, %1$s!</string>
     <string name="tile_label">Example tile</string>
     <string name="complication_label">Example complication</string>
+<<<<<<< HEAD
     <string name="clinic_name">Clínica Veterinaria Jireh</string>
+=======
+    <string name="clinic_name">Mi enfermera favorita</string>
+>>>>>>> jamesB
 </resources>

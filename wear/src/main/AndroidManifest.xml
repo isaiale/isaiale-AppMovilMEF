@@ -21,6 +21,7 @@
 
         <uses-library android:name="com.google.android.wearable" android:required="true"/>
 
+<<<<<<< HEAD
         <service
             android:name="com.example.mienfermerafav.presentation.DataLayerListenerService"
             android:exported="true">
@@ -30,6 +31,8 @@
             </intent-filter>
         </service>
 
+=======
+>>>>>>> jamesB
         <activity
             android:name="com.example.mienfermerafav.presentation.MainActivity"
             android:exported="true"
@@ -41,17 +44,40 @@
             </intent-filter>
         </activity>
 
+<<<<<<< HEAD
         <!-- Agrega las actividades adicionales para las nuevas pantallas -->
         <activity
             android:name=".presentation.GuideActivity"
+=======
+        <activity
+            android:name="com.example.mienfermerafav.presentation.GuideActivity"
+>>>>>>> jamesB
             android:exported="true"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
 
         <activity
+<<<<<<< HEAD
             android:name=".presentation.TokenActivity"
             android:exported="true"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
     </application>
 </manifest>
+=======
+            android:name="com.example.mienfermerafav.presentation.TokenActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.DeviceDefault">
+        </activity>
+
+        <service
+            android:name=".presentation.WearableDataListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/message_path" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
+>>>>>>> jamesB
