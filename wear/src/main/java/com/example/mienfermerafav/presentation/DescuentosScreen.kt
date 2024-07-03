@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,16 +52,27 @@ fun DescuentosScreen(navController: NavController) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Spacer(modifier = Modifier.height(3.dp))
-        Text(text = "Productos", fontSize = 24.sp, color = Color.Black)
+        Text(
+            text = "Productos",
+            fontSize = 24.sp,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible
+        )
         Spacer(modifier = Modifier.height(2.dp))
 
         if (productos.isEmpty()) {
-            Text(text = "No hay productos con descuento disponibles", fontSize = 15.sp, color = Color.Gray)
+            Text(
+                text = "No hay productos con descuento disponibles",
+                fontSize = 15.sp,
+                color = Color.Gray)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -69,7 +81,13 @@ fun DescuentosScreen(navController: NavController) {
             ) {
                 items(productos) { producto ->
                     val displayText = "${producto.nombre}  ${producto.descuento}%"
-                    Text(text = displayText, fontSize = 15.sp, color = Color.Black)
+                    Text(
+                        text = displayText,
+                        fontSize = 15.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible
+                    )
                     Spacer(modifier = Modifier.height(14.dp))
                 }
             }

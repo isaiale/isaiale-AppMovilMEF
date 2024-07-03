@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,22 +29,38 @@ fun TokenScreen(navController: NavController, message: String, context: Context)
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = message, fontSize = 10.sp, color = Color.Black) // Mostrar el mensaje recibido
+        Text(text = message,
+            fontSize = 10.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        Text(
+            text = "Ingrese el token",
+            fontSize = 16.sp,
+            color = Color.Black,
+            modifier = Modifier.fillMaxWidth()
+        )
         TextField(
             value = token,
             onValueChange = { token = it },
-            label = { Text("Ingrese el token", fontSize = 20.sp, color = Color.Black )}
+            label = { Text("Ingrese el token", fontSize = 14.sp, color = Color.Black )},
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        //Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             scope.launch {
                 validateToken(context, navController, message, token)
             }
-        }) {
+        },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF6200EE)),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             Text(text = "Enviar")
         }
         Spacer(modifier = Modifier.height(16.dp))

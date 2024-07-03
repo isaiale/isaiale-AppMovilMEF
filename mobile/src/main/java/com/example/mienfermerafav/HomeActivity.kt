@@ -24,7 +24,7 @@ class HomeActivity : AppCompatActivity() {
         correo = intent.getStringExtra("CORREO") ?: ""
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
-        welcomeTextView.text = "Bienvenido, $nombre $apellido"
+        welcomeTextView.text = "$nombre $apellido"
 
         val generateTokenButton = findViewById<Button>(R.id.generateTokenButton)
         generateTokenButton.setOnClickListener {

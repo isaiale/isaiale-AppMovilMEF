@@ -2,6 +2,7 @@
     <color name="colorPrimary">#00263e</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#FFFDD0</color>
+    <color name="button_background">#6200EE</color>
 </resources>
 
     <!--
